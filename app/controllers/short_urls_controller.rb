@@ -26,11 +26,9 @@ class ShortUrlsController < ApplicationController
       flash[:alert] = 'User was not saved'
       return render json:{errors:short_url.errors.full_messages}, status: 400
     end
-    short_url.short_code = Base62.encode(short_url.id)
-    short_url.save!
 
     UpdateTitleJob.perform_later(short_url.id)
-    return render json: { short_code: short_url.short_code, short_url: short_url}
+    return render json: { short_code: short_url.short_code}
 
   end
 
