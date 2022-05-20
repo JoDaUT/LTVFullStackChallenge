@@ -59,6 +59,7 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     awesome_print (1.9.2)
+    base62-rb (0.3.1)
     bindex (0.8.1)
     bootsnap (1.4.5)
       msgpack (~> 1.0)
@@ -254,6 +255,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  base62-rb (~> 0.3.1)
   bootsnap (>= 1.4.2)
   byebug
   capybara (>= 2.15)

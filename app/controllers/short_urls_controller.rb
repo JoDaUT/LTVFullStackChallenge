@@ -1,5 +1,6 @@
 require 'json'
 include ShortUrlsHelper
+require 'base62-rb'
 # include UpdateTitleJob
 class ShortUrlsController < ApplicationController
 
@@ -36,6 +37,7 @@ class ShortUrlsController < ApplicationController
   def show
     id = params[:id]
     row = ShortUrlsHelper::base62Decoder(id)
+    row = Base62.decode(id)
     short_url = nil
     ShortUrl.transaction do
       short_url = ShortUrl.lock(true).find(row)

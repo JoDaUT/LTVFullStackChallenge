@@ -1,4 +1,6 @@
 require 'uri'
+require 'base62-rb'
+
 include ShortUrlsHelper
 class ShortUrl < ApplicationRecord
 
@@ -6,7 +8,9 @@ class ShortUrl < ApplicationRecord
   validates :full_url, presence: true
   
   def short_code
-    ShortUrlsHelper::base62Encoder(self.id)
+    # ShortUrlsHelper::base62Encoder(self.id)
+    # self.short_code
+    Base62.encode(self.id)
   end
 
   def update_title!
