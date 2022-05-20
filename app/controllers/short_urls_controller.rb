@@ -13,7 +13,6 @@ class ShortUrlsController < ApplicationController
   end
 
   def index
-    # @short_urls = ShortUrl.all
     @short_urls = ShortUrl.order(click_count: :desc).limit(100)
     render json: {urls:@short_urls}
   end
@@ -27,22 +26,22 @@ class ShortUrlsController < ApplicationController
       flash[:alert] = 'User was not saved'
       return render json:{errors:short_url.errors.full_messages}, status: 400
     end
-    short_code = short_url.short_code
+    short_url.short_code = Base62.encode(short_url.id)
+    short_url.save!
 
     UpdateTitleJob.perform_later(short_url.id)
-    return render json: { short_code: short_code, short_url: short_url}
+    return render json: { short_code: short_url.short_code, short_url: short_url}
 
   end
 
   def show
     id = params[:id]
-    row = Base62.decode(id)
     short_url = nil
+    row = Base62.decode(id)
+    # a transaction is used to ensure that the click_count is incremented without race conditions
     ShortUrl.transaction do
       short_url = ShortUrl.lock(true).find(row)
-
       short_url.click_count += 1
-      puts short_url.to_json
       short_url.save!
     end
     redirect_to short_url.full_url
