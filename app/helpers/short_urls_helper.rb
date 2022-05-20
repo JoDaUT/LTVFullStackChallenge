@@ -1,3 +1,4 @@
+require 'pismo'
 module ShortUrlsHelper
     CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     def base62Encoder(id)
@@ -26,5 +27,10 @@ module ShortUrlsHelper
 	    
 	    
 	    return id
+    end
+
+    def get_url_title(url)
+        doc = Pismo::Document.new(url)
+        return doc.title
     end
 end

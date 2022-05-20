@@ -10,6 +10,7 @@ class ShortUrl < ApplicationRecord
   end
 
   def update_title!
+    self.title = get_url_title(self.full_url)
   end
 
   private
