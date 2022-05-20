@@ -36,7 +36,6 @@ class ShortUrlsController < ApplicationController
 
   def show
     id = params[:id]
-    row = ShortUrlsHelper::base62Decoder(id)
     row = Base62.decode(id)
     short_url = nil
     ShortUrl.transaction do
