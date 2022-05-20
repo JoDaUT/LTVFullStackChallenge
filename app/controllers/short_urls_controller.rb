@@ -1,6 +1,6 @@
 require 'json'
 include ShortUrlsHelper
-
+# include UpdateTitleJob
 class ShortUrlsController < ApplicationController
 
   skip_before_action :verify_authenticity_token
@@ -12,9 +12,9 @@ class ShortUrlsController < ApplicationController
   end
 
   def index
-    # return all short urls from database
-    @short_urls = ShortUrl.all
-    render json: @short_urls.to_json
+    # @short_urls = ShortUrl.all
+    @short_urls = ShortUrl.order(click_count: :desc).limit(100)
+    render json: {urls:@short_urls}
   end
 
   def create
@@ -27,6 +27,8 @@ class ShortUrlsController < ApplicationController
       return render json:{errors:short_url.errors.full_messages}, status: 400
     end
     short_code = short_url.short_code
+
+    UpdateTitleJob.perform_later(short_url.id)
     return render json: { short_code: short_code, short_url: short_url}
 
   end
