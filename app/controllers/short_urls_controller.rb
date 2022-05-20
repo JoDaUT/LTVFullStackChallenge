@@ -1,7 +1,6 @@
 require 'json'
 include ShortUrlsHelper
 require 'base62-rb'
-# include UpdateTitleJob
 class ShortUrlsController < ApplicationController
 
   skip_before_action :verify_authenticity_token
