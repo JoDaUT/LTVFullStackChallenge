@@ -1,3 +1,5 @@
+# NOTE: YOU HAVE TO RUN THESE STEPS BECAUSE I ADDED CHANGES TO GENERATE MIGRATIONS.
+
 # Intial Setup
 
     docker-compose build
@@ -31,9 +33,10 @@
 
     curl -I localhost:3000/abc
 
-# Notes
+# Solution
 
-I've using a variation from Conventional Commit Convention
+## Git conventions
+I've been using a variation from Conventional Commit Convention
 https://www.conventionalcommits.org/en/v1.0.0/
 
 Structure:
@@ -42,23 +45,28 @@ Ex. feat(dev):short url redirection
 
 
 # Git branches
-For simplicity I am only using two branches, dev and main.
+For simplicity I'm only using two branches, dev and main.
 
 # Resources
-I found this implementations. I liked because contemplate the maximum number of characters required to represent an enough amount of urls.
+I found these implementations. I liked because they contemplate the maximum number of characters required to represent an enough amount of URLs.
 
 [How to design a tiny URL or URL shortener? - GeeksforGeeks](https://www.geeksforgeeks.org/how-to-design-a-tiny-url-or-url-shortener/)
 
 [Designing URL Shortening Service like TinyURL - enjoy algorithms](https://www.enjoyalgorithms.com/blog/design-a-url-shortening-service-like-tiny-url)
 
-(Create a URL shortener with Ruby on Rails - zauberware - SIMON FRANZEN)[https://www.zauberware.com/en/articles/2019/create-a-url-shortener-with-ruby-on-rails]
+[Create a URL shortener with Ruby on Rails - zauberware - SIMON FRANZEN](https://www.zauberware.com/en/articles/2019/create-a-url-shortener-with-ruby-on-rails)
+
+Here is a little explanation of the solution:
 
 1. A lower case alphabet [‘a’ to ‘z’], total 26 characters 
 2. An upper case alphabet [‘A’ to ‘Z’], total 26 characters 
 3. A digit [‘0’ to ‘9’], total 10 characters
 There are total 26 + 26 + 10 = 62 possible characters.
-Thus, its a good idea to use base 62 encoding.
+Thus, its a good idea to use base 62 encoding. I used [base62-rb](https://github.com/steventen/base62-rb) because it is very simple to use.
 
-# Other solutions
-I found this gem that already gives a solution for this challege in a gem. I didn't use it, in a production environment I will use it some implementation like that.
+## Problems of this solution
+- It has a pattern in the short URL codes generation. It would be better to add a little randomness to hide this pattern.
+- It depends on the row ID, instead of the full URL, to generate the short code.
 
+## Problems encountered solving the challenge
+I had a problem the first day, starting the project. The main container exited with error 1, and I didn't know why. I took me a day to find the solution. Sometimes, rails generates garbage when stops abruptly. The solution was to delete the tem/server.pid file.
