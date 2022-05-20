@@ -23,6 +23,14 @@ class ShortUrl < ApplicationRecord
     self.title = get_url_title(self.full_url)
   end
 
+  def public_attributes
+    return {
+      "short_code" => self.short_code,
+      "full_url" => self.full_url,
+      "title" => self.title,
+    }
+  end
+
   private
 
   def validate_full_url

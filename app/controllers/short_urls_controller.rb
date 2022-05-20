@@ -14,7 +14,7 @@ class ShortUrlsController < ApplicationController
 
   def index
     @short_urls = ShortUrl.order(click_count: :desc).limit(100)
-    render json: {urls:@short_urls}
+    render json: {urls:@short_urls.map(&:public_attributes)}
   end
 
   def create
