@@ -4,7 +4,6 @@ class CreateShortUrls < ActiveRecord::Migration[6.0]
       t.string :full_url, index: true
       t.string :title
       t.integer :click_count, default: 0
-
       t.timestamps
     end
   end
